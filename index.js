@@ -44,6 +44,7 @@ $("button#reset").on("click", function() {
 //pomodoro
 $("label[for='pomodoro']").on("click", function() {
   timeSet = min = 25;
+  sec = 0;
   renderTime(25, 0);
   clearInterval(timeInterval);
 });
@@ -51,6 +52,7 @@ $("label[for='pomodoro']").on("click", function() {
 //short break
 $("label[for='shortBreak']").on("click", function() {
   timeSet = min = 5;
+  sec = 0;
   renderTime(5, 0);
   clearInterval(timeInterval);
 });
@@ -58,6 +60,8 @@ $("label[for='shortBreak']").on("click", function() {
 //long break
 $("label[for='longBreak']").on("click", function() {
   timeSet = min = 10;
+  sec = 0;
   renderTime(10, 0);
   clearInterval(timeInterval);
 });
+
