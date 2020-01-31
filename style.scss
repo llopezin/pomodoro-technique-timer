@@ -1,7 +1,6 @@
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-  height: 100vh;
   background: #fdc830; /* fallback for old browsers */
   background: -webkit-linear-gradient(
     to right,
@@ -17,22 +16,30 @@ body {
   overflow: hidden;
 }
 main {
+  height: 90%;
+  display: flex;
+  align-items: flex-end;
+}
+#mainContentWrap {
   width: 100%;
   margin: auto;
-  margin-top: 7%;
   text-align: center;
 }
-main ol {
-  margin-top: 0;
+#mainContentWrap ol {
+  padding: 0;
+  margin: 0;
   li {
     list-style-position: inside;
   }
 }
-main h1 {
+#mainContentWrap h1,
+#mainContentWrap h3 {
+  color: rgb(44, 43, 43);
   margin-bottom: 4px;
 }
+
 #timer {
-  font-size: 4em;
+  font-size: 6em;
   font-family: monospace;
 }
 #periodSelectors,
@@ -53,7 +60,8 @@ button {
     display: none;
   }
   label {
-    margin: 10px 20px;
+    margin: 10px;
+    margin-top: 30px;
     padding: 15px 35px;
     background-color: rgb(77, 75, 75);
     color: white;
@@ -82,11 +90,19 @@ button.bottom {
   }
 }
 button#start {
-  background-color: red;
+  background-color: rgba(255, 0, 0, 0.932);
 }
 button#pause {
-  background-color: green;
+  background-color: rgba(0, 128, 0, 0.76);
 }
 button#reset {
-  background-color: blue;
+  background-color: rgba(0, 0, 255, 0.774);
+}
+
+@media only screen and (max-width: 600px) {
+  #periodSelectors label {
+    margin: 5px;
+    border-radius: 2px;
+    padding: 5px 20px;
+  }
 }
