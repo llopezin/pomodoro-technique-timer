@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <title>Pomodoro Timer</title>
+</head>
+
+<body>
+    <main>
+        <h1>Pomodoro technique timer</h1>
+        <ol>
+            <li>Choose a task and work on it for 25 minutes. This period is known as "pomodoro"</li>
+            <li>Take a short break and start a new pomodoro</li>
+            <li>After your third pomodoro take long break </li>
+        </ol>
+        <div id="periodSelectors">
+            <input type="radio" name="radio" class="top" id="pomodoro" checked>
+            <label for="pomodoro">Pomodoro</label>
+            <input type="radio" name="radio" class="top" id="shortBreak">
+            <label for="shortBreak">Short break</label>
+            <input type="radio" name="radio" class="top" id="longBreak">
+            <label for="longBreak">Long break</label>
+        </div>
+        <div id="timer">
+
+        </div>
+        <div id="controllers">
+            <button class="bottom" id="start">start</button>
+            <button class="bottom" id="pause">pause</button>
+            <button class="bottom" id="reset">reset</button>
+        </div>
+    </main>
+
+    <script type="text/javascript" src="index.js"></script>
+
+</body>
+
+</html>

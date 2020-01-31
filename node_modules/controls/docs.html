@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset="utf-8">
+    <title>controls.js framework for dynamic html documents</title>
+    <script src="document.min.js" icon="favicon.ico" id="DOC" onerror="var l=document.createElement('link'),s=document.createElement('script');l.rel='stylesheet';l.href='http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css';l.id='bootstrap.css';l.auto='1';document.head.insertBefore(l,document.getElementById('DOC'));s.src='http://aplib.github.io/document.min.js';document.head.appendChild(s);"></script>
+</head>
+<body>
+
+<!--header-panel
+<div><a href="http://aplib.github.io/controls.js">[h1`btn-primary border-radius:4px; padding:20px; display:inline-block;]controls.js[/h1]</a>
+<h3>framework for dynamic html documents and UI solutions</h3>
+</div>
+
+<a href="docs" class="label label-default">Manual & Documentation</a>
+&nbsp;<a href="https://github.com/aplib/controls.js" class="label label-default">GitHub repository</a>
+&nbsp;<a href="https://github.com/aplib/controls.js/archive/master.zip" class="label label-default">Download</a>
+&nbsp;<a href="bootstrap.controls-demo" class="label label-default">Bootstrap 3 Demo</a>
+&nbsp;<a href="http://aplib.github.io/processor.js" class="label label-default">See also processor.js</a>
+
+[![NPM version](https://badge.fury.io/js/controls.png)](http://badge.fury.io/js/controls)
+-->
+
+<!--content-panel
+
+#### Table of Contents
+
+* [Component creation](#component-creation)
+ * [query](#query-string-format) - query string format.
+ * [controls.typeRegister()](#controls-typeregister) - register constructor.
+ * [controls.factoryRegister()](#controls-factoryregister) - register factory function.
+ * [controls.create(query)](#controls-create-query) - create component/get value.
+ * [controls.createBase()](#controls-createbase) - create from parsed parameters and attributes.
+ * [component.insert()](#component-insert) - create a new component and insert at the specified index.
+ * [component.add(query)](#component-add-query) - add child component.
+ * [component.add(component[s])](#component-add-component) - add child component[s].
+ * [component._add()](#component-add-query) - same as component.add(), but returns this.
+ * [Component constructor function](#component-constructor-function)
+ * [component.initialize()](#component-initialize) - component initialization
+* [Events](#events)
+ * [component.on()](#component-on) - add event listener
+ * [component.raise()](#component-raise) - raise event
+ * [component.removeListener()](#component-removelistener) - remove event listener
+* [Hierarchy and interaction](#hierarchy-and-interaction)
+ * [component.name](#component-name) - name of the component
+ * [component.parent](#component-parent) - parent property
+ * [component.controls](#component-controls) - child controls collection
+ * [component.length](#component-length) - length of child nodes collection
+* [Component properties and methods](#component-properties-and-methods)
+ * [component.id](#component-id)
+ * [component.__type](#component-__type)
+ * [component.parameters](#component-parameters)
+ * [component.parameter()](#component-parameter) - get and set parameter value
+ * [component.attributes](#component-attributes)
+* [Built-in components](#built-in-components)
+ * [container](#default-container)
+
+
+
+[h2#component-creation`martop20 padtop20] Component creation[/h2]
+
+***
+
+[h3#query-string-format]query format (component definition)[/h3]
+
+>syntax:  
+ ```name:namespace.comtype parameters /inheritable parameters #identifier `class1 classN style```
+
+examples:  
+
+```bootstrap.Button size=-2```  
+```h4 #example-header `color:#428BCA;```  
+```span `warning-header font-weight:bold;```  
+
+All parts are optional except comtype.
+
+[defl]
+
+--name
+Name of the component within the parent collection.
+
+--namespace.comtype
+Registered component or factory function type. Namespace default value is "controls". Component registered to default namespace can be used without a namespace. 
+
+--parameters
+Сomponent parameters. A list of key=value or key="values with spaces" pairs separated by spaces. If no value is specified, the value defaults to boolean true.
+Parameters with a name starting with '$' character will be transferred to the attributes collection of the component.
+
+--inheritable parameters
+Parameters determined after '/' will apply to child components.
+
+--identifier
+Identifier of the component.
+If not defined the identifier is assigned automatically
+
+--classes
+List of css classes.
+
+--style
+css
+
+[/defl]
+
+
+
+[h2#controls-typeregister]controls.typeRegister()[/h2]
+
+Register constructor function in the library.
+
+>syntax:  
+>`controls.typeRegister(query, constructor)`
+
+[defl]
+
+--query {string}
+Query string can include namespace, type and optional parameters.
+
+--constructor
+Object constructor function.
+
+[/defl]
+
+
+
+[h2#controls-factoryregister]controls.factoryRegister()[/h2]
+
+Register factory function in the ibrary.
+
+>syntax:  
+>`controls.factoryRegister(query, factory)`
+
+[defl]
+
+--query {string}
+Query string can include namespace, type and optional parameters.
+
+--factory
+Object or value factory function.
+
+[/defl]
+
+
+
+[h2#controls-create-query]controls.create(query)[/h2]
+
+Create component/call factory function.
+
+>syntax:  
+>`controls.create(query, [prime], [attributes], [callback], [this_arg])`
+
+[defl]
+
+--query {string}
+Query string.
+
+--prime
+Prime value is a responsibility of the component. This parameter value can be of simple type or be derived from DataObject DataArray.
+
+--attributes {object}
+Attributes hash object to be passed to the component.
+
+--callback {function}
+The callback will be called each time after the creation of a new component.
+
+--this_arg {object}
+The value to be passed as the this parameter to the target function when the callback function is called. 
+
+[/defl]
+
+Returns newly created component object.
+
+
+
+[h2#controls-createbase]controls.createBase()[/h2]
+
+Create component/call factory function from parsed parameters and attributes.
+
+>syntax:  
+>`processor.createBase(type, parameters, attributes)`
+
+[defl]
+
+--type {string}
+Base type [and parameters].
+
+--parameters {object}
+Parsed parameters hash object.
+
+--attributes {object}
+Attributes hash object.
+
+[/defl]
+
+Returns newly created component object.
+
+
+[h2#component-insert]component.insert()[/h2]
+
+Create a new component and insert to the component.controls collection at the specified index.
+
+>syntax:  
+>`component.insert(index, query, [primary], [attributes], [callback], [this_arg])`
+
+[defl]
+
+--index
+Specify index in component.controls collection.
+
+[/defl]
+
+Other arguments are the same as in the method [controls.create(query)](#controls-create-query)
+
+Returns newly created component object.
+
+
+
+[h2#component-add-query]component.add(query)[/h2]
+
+Add child component.
+
+>syntax:  
+>`component.add(query, [primary], [attributes], [callback], [this_arg])`
+
+The arguments are the same as in the method [controls.create(query)](#controls-create-query)
+
+Returns newly created component object.
+
+
+
+[h2#component-add-component]component.add(component[s])[/h2]
+
+Add child component[s].
+
+>syntax:  
+>`component.add(component)`  
+>`component.add([...])`
+
+
+
+[h2#component-_add]component._add()[/h2]
+
+Same as [component.add(query)](#component-add-query), but returns this.
+
+
+
+[h2#component-constructor-function]component constructor function[/h2]
+
+>syntax:  
+<code>function Com(parameters, attributes) {  
+&nbsp;&nbsp;this.initialize(type, parameters, attributes);  
+&nbsp;&nbsp;...  
+}  
+Com.prototype = controls.control_prototype;  
+controls.typeRegister('example', Com);</code>
+
+[defl]
+
+--type {string}
+Type of component, value is assigned to the attribute __type.
+
+--parameters {object}
+Parameters parsed from query string.
+
+--attributes {object}
+Passed attributes hash object.
+
+[/defl]
+
+
+
+[h2#component-initialize]component.initialize()[/h2]
+
+Component initialization. Creates a component attributes ```parameters, attributes, parent, controls``` etc. Normally called from the object constructor function of the component.
+
+>syntax:  
+>`this.initialize(type, parameters, attributes);`  
+
+Returns component this.
+
+
+
+[h2#events`martop20 padtop20]Events[/h2]
+
+***
+
+
+
+[h2#component-on]component.on()[/h2]
+
+Add event listener.
+
+>syntax:  
+>`this.on(event, [call_this], listener, [capture]);`  
+
+[defl]
+
+--event {string}
+Event type. Event type may be DOM event as "click" or special control event as "type".
+
+--call_this {object}
+The value to be passed as the this parameter to the target function when the event handler function is called.
+
+--listener {function}
+Event handler function.
+
+--capture {boolean}
+This argument will be passed to DOM.addEventListener(,, useCapture).
+
+[/defl]
+
+Returns component this.
+
+
+
+[h2#component-raise]component.raise()[/h2]
+
+Raise event.
+
+>syntax:  
+>`this.raise(event, arguments ...);`  
+
+[defl]
+
+--event {string}
+Event type.
+
+--arguments
+Arbitrary number of arguments to be passed to handlers.
+
+[/defl]
+
+Returns component this.
+
+
+
+[h2#component-removelistener]component.removeListener()[/h2]
+
+Remove event listener.
+
+>syntax:  
+>`this.removeListener(event, listener, [capture]);`  
+
+[defl]
+
+--event {string}
+Event type.
+
+--listener {function}
+Event handler function to be removed.
+
+--capture {boolean}
+This argument will be passed to DOM.removeEventListener(,, useCapture).
+
+[/defl]
+
+Returns component this.
+
+
+
+[h2#hierarchy-and-interaction`martop20 padtop20]Hierarchy and interaction[/h2]
+
+***
+
+
+[h2#component-name]component.name[/h2]
+
+{string} Name of the component within the parent collection.
+
+
+[h2#component-parent]component.parent[/h2]
+
+Parent of the specified component.
+
+
+[h2#component-controls]component.controls[/h2]
+
+{array} Collection of child components.
+
+
+[h2#component-length]component.length[/h2]
+
+{number} Get and set the length of child components collection.
+
+
+
+
+[h2#component-properties-and-methods`martop20 padtop20]Component properties and methods[/h2]
+
+***
+
+
+
+[h2#component-id]component.id[/h2]
+
+{string} Identifier of the component. The value is set automatically when you create a object of the component.
+
+
+
+[h2#component-__type]component.__type[/h2]
+
+{string} Namespace and base type of the component.
+
+
+
+[h2#component-parameters]component.parameters[/h2]
+
+{object} Hash object is a collection of named parameters.  
+parameters['{params}'] contain array of fixed order parameters.
+
+
+
+[h2#component-parameter]component.parameter()[/h2]
+
+Get and set parameter value.
+
+>syntax:  
+>`component.parameter(name)` - get parameter value  
+>`component.parameter(name, value)` - set parameter value  
+
+For inheritable parameters name starts with a '/'. Name argument of this method can be specified without '/'.
+
+
+[h2#component-arguments]component.attributes[/h2]
+
+{object} Hash object is a collection of attributes.
+
+
+
+
+
+[h2#built-in-components`martop20 padtop20]Built in components[/h2]
+
+***
+
+
+
+[h2#default-container]container[/h2]
+
+Neutral html-less component for using as component-container.-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--right-side-panel
+-->
+
+
+
+
+
+
+
+</body>
+</html>
