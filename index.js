@@ -1,5 +1,5 @@
 let timeSet = 25;
-let min;
+let min = 25;
 let sec = 0;
 let timeInterval;
 
@@ -36,6 +36,7 @@ $("button#start").on("click", function() {
 //reset
 $("button#reset").on("click", function() {
   min = timeSet;
+  sec = 0;
   renderTime(timeSet, 0);
   clearInterval(timeInterval);
 });
