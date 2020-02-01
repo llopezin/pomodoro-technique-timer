@@ -14,14 +14,14 @@ body {
   ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 
   overflow: hidden;
+  height: 100vh;
 }
 main {
   height: 90%;
   display: flex;
-  align-items: flex-end;
+  align-items: center;
 }
 #mainContentWrap {
-  width: 100%;
   margin: auto;
   text-align: center;
 }
@@ -105,4 +105,8 @@ button#reset {
     border-radius: 2px;
     padding: 5px 20px;
   }
+  button.bottom {
+    margin: 5px;
+  }
 }
+
